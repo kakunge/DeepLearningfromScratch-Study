@@ -22,14 +22,14 @@ def sigmoid(x):
 def ReLU(x):
     return np.maximum(0, x)
 
-#넘파이를 이용한 행렬 계산과 신경망 신호 전달
 
+#넘파이를 이용한 행렬 계산과 신경망 신호 전달
 #항등 함수
 def identity_function(x):
     return x
 
 #3층 신경망
-def init_network():
+def init_network():#가중치와 편향 초기화, 딕셔너리 변수 network에 저장
     network = {}
     network['W1'] = np.array([[0.1, 0.3, 0.5], [0.2, 0.4, 0.6]])
     network['b1'] = np.array([0.1, 0.2, 0.3])
@@ -40,7 +40,7 @@ def init_network():
 
     return network
 
-def forward(network, x):
+def forward(network, x):#입력 신호를 출력으로 변환(순방향)
     W1, W2, W3 = network['W1'], network['W2'], network['W3']
     b1, b2, b3 = network['b1'], network['b2'], network['b3']
 
@@ -57,3 +57,23 @@ network = init_network()
 x = np.array([0.1, 0.5])
 y = forward(network, x)
 print(y)#[0.31234736 0.6863161 ]
+
+#소프트맥스 함수 : 분류에 사용되는 활성화 함수
+def softmax1(a):
+    exp_a = np.exp(a)
+    sum_exp_a = np.sum(exp_a)
+    y = exp_a / sum_exp_a
+
+    return y
+#오버플로가 생기는 것을 조심해야 한다.
+
+#개선된 소프트맥스 함수 구현
+def softmax(a):
+    c = np.max(a)
+    exp_a = np.exp(a-c)
+    sum_exp_a = np.sum(exp_a)
+    y = exp_a / sum_exp_a
+
+    return y
+#소프트맥스 함수의 출력은 0에서 1.0 사이의 실수이고, 출력의 총합은 1이다. 이와 같은 성질을 이용하여 출력값을 '확률'로 해석할 수 있다.
+
