@@ -77,3 +77,29 @@ def softmax(a):
     return y
 #소프트맥스 함수의 출력은 0에서 1.0 사이의 실수이고, 출력의 총합은 1이다. 이와 같은 성질을 이용하여 출력값을 '확률'로 해석할 수 있다.
 
+#MNIST 데이터셋 - 손글씨 숫자 이미지 집합
+
+#신경망의 추론 처리
+def get_data():
+    (x_train, t_train), (x_test, t_test) = \
+        load_mnist(normalize=True, flatten=True, one_hot_label=False)
+    return x_test, t_test
+
+def init_network():
+    with open("sample_weight.pkl", 'rb') as f:
+        network = pickle.load(f)
+
+    return network
+
+def predict(network, x):
+    W1, W2, W3 = network['W1'], network['W2'], network['W3']
+    b1, b2, b3 = network['b1'], network['b2'], network['b3']
+
+    a1 = np.dot(x, W1) + b1
+    z1 = sigmoid(a1)
+    a2 = np.dot(z1, W2) + b2
+    z2 = sigmoid(a2)
+    a3 = np.dot(z2, W3) + b3
+    y = softmax(a3)
+
+    return y
