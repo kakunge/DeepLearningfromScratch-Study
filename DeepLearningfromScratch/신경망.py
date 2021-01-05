@@ -85,7 +85,7 @@ def get_data():
         load_mnist(normalize=True, flatten=True, one_hot_label=False)
     return x_test, t_test
 
-def init_network():
+def init_network_mnist():
     with open("sample_weight.pkl", 'rb') as f:
         network = pickle.load(f)
 
