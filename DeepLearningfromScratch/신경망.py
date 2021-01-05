@@ -1,4 +1,7 @@
+import sys, os
+sys.path.append(os.pardir)
 import numpy as np
+import pickle
 from dataset.mnist import load_mnist
 
 def step_function1(x):#간단한 계단 함수
@@ -104,3 +107,15 @@ def predict(network, x):
     y = softmax(a3)
 
     return y
+
+x, t = get_data()
+network = init_network_mnist()
+
+accuracy_cnt = 0
+for i in range(len(x)):
+    y = predict(network, x[i])
+    p = np.argmax(y)
+    if p == t[i]:
+        accuracy_cnt += 1
+
+print("Accuracy:" + str(float(accuracy_cnt) / len(x)))#Accuracy:0.9352
