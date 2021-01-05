@@ -1,4 +1,5 @@
 import numpy as np
+from dataset.mnist import load_mnist
 
 def step_function1(x):#간단한 계단 함수
     if x > 0:
@@ -82,7 +83,7 @@ def softmax(a):
 #신경망의 추론 처리
 def get_data():
     (x_train, t_train), (x_test, t_test) = \
-        load_mnist(normalize=True, flatten=True, one_hot_label=False)
+        load_mnist(normalize=True, flatten=True, one_hot_label=False)#normalize : 입력 이미지의 픽셀을 0.0~1.0 사이의 값으로 정규화 flatten : 입력 이미지를 1차원 배열로 만들지 결정 one_hot_label : one-hot encoding 형태로 저장할지를 결정
     return x_test, t_test
 
 def init_network_mnist():
