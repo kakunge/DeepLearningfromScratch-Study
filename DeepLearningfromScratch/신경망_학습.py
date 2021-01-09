@@ -29,6 +29,7 @@ batch_mask = np.random.choice(train_size, batch_size)
 x_batch = x_train[batch_mask]
 t_batch = t_train[batch_mask]
 
+'''
 #배치 데이터에서 교차 엔트로피 오차
 def cross_entropy_error_batch(y, t):
     if y.ndim == 1:
@@ -39,7 +40,7 @@ def cross_entropy_error_batch(y, t):
     return -np.sum(t * np.log(y + 1e-7)) / batch_size
 
 #원-핫 인코딩이 아닐 경우
-'''
+
 def cross_entropy_error_batch(y, t):
     if y.ndim == 1:
         t = t.reshape(1, t.size)
@@ -48,3 +49,14 @@ def cross_entropy_error_batch(y, t):
     batch_size = y.shape[0]
     return -np.sum(np.log(y[np.arange(batch_size), t] + 1e-7)) / batch_size
 '''
+
+def cross_entropy_error_batch(y, t):
+    if y.ndim == 1:
+        t = t.reshape(1, t.size)
+        y = y.reshape(1, y.size)
+    
+    if t.size == y.size:
+        t = t.argmax(axis=1)
+        
+    batch_size = y.shape[0]
+    return -np.sum(np.log(y[np.arange(batch_size), t] + 1e-7)) / batch_size
