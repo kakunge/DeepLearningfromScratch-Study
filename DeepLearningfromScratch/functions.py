@@ -50,3 +50,51 @@ def softmax(a):
 
     return y
 #소프트맥스 함수의 출력은 0에서 1.0 사이의 실수이고, 출력의 총합은 1이다. 이와 같은 성질을 이용하여 출력값을 '확률'로 해석할 수 있다.
+
+#평균 제곱 오차
+def mean_squared_error(y, t):
+    return 0.5 * np.sum((y-t)**2)
+
+'''
+#교차 엔트로피 오차
+def cross_entropy_error(y, t):
+    delta = 1e-7
+    return -np.sum(t * np.log(y + delta))#np.log() 함수에 0을 입력하면 -inf가 되어서 계산을 진행할 수 없기 때문에 delta를 더해준다.
+
+
+
+#배치 데이터에서 교차 엔트로피 오차
+def cross_entropy_error_batch(y, t):
+    if y.ndim == 1:
+        t = t.reshape(1, t.size)
+        y = y.reshape(1, y.size)
+        
+    batch_size = y.shape[0]
+    return -np.sum(t * np.log(y + 1e-7)) / batch_size
+
+#원-핫 인코딩이 아닐 경우
+
+def cross_entropy_error_batch(y, t):
+    if y.ndim == 1:
+        t = t.reshape(1, t.size)
+        y = y.reshape(1, y.size)
+        
+    batch_size = y.shape[0]
+    return -np.sum(np.log(y[np.arange(batch_size), t] + 1e-7)) / batch_size
+'''
+
+def cross_entropy_error_batch(y, t):
+    if y.ndim == 1:
+        t = t.reshape(1, t.size)
+        y = y.reshape(1, y.size)
+    
+    if t.size == y.size:
+        t = t.argmax(axis=1)
+        
+    batch_size = y.shape[0]
+    return -np.sum(np.log(y[np.arange(batch_size), t] + 1e-7)) / batch_size
+
+def cross_entropy_error(y, t):
+    if y.ndim == 1:
+        t = t.reshape(1, t.size)
+        y = y.reshape(1, y.size)
