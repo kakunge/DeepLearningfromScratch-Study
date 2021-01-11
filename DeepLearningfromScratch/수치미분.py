@@ -9,9 +9,11 @@ def numerical_diff(f, x):
 def function_1(x):
     return 2*x**2-3*x+4
 
+'''
 print(numerical_diff(function_1, 5))#16.999999999995907
 print(numerical_diff(function_1, 10))#36.99999999980719
 #해석적인 결과와 거의 같게 나온다
+'''
 
 def function_2(x):
     return x[0]**2 + x[1]**2
