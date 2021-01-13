@@ -21,3 +21,19 @@ class mulLayer:
         dy = dout * self.x
 
         return dx, dy
+
+#덧셈 계층
+class addLayer:
+    def __init__(self):
+        pass
+
+    def forward(self, x, y):#순전파
+        out = x * y
+
+        return out
+    
+    def backward(self, dout):#역전파
+        dx = dout * self.y
+        dy = dout * self.x
+
+        return dx, dy
