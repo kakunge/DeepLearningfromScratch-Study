@@ -33,7 +33,7 @@ class addLayer:
         return out
     
     def backward(self, dout):#역전파
-        dx = dout * self.y
-        dy = dout * self.x
+        dx = dout * 1
+        dy = dout * 1
 
         return dx, dy
