@@ -1,3 +1,5 @@
+import numpy as np
+
 #계산 그래프 : 계산 과정을 그래프로 나타낸 것
 #순전파 : 계산 그래프의 출발점부터 종착점으로의 전파
 #역전파 : 순전파의 반대 방향으로 전파
@@ -59,7 +61,7 @@ class ReLU:
 #시그모이드 계층
 class Sigmoid:
     def __init__(self):
-        delf.out = None
+        self.out = None
 
     def forward(self, x):
         out = 1 / (1 + np.exp(-x))
@@ -72,3 +74,25 @@ class Sigmoid:
         
         return dx
     
+#Affine 계층
+class Affine:
+    def __init__(self, W, b):
+        self.W = W
+        self.b = b
+        self.x = None
+        self.dW = None
+        self.db = None
+
+    def forward(self, x):
+        self.x = x
+        out = np.dot(x, self.W) + self.b
+
+        return out
+    
+    def backward(self, dout):
+        dx = np.dot(dout, self.W.T)
+        self.dW = np.dot(self.x.T, dout)
+        self.db = np.sum(dout, axis=0)
+
+        return dx
+

@@ -2,7 +2,7 @@ import sys, os
 sys.path.append(os.pardir)
 import numpy as np
 from 신경망 import softmax
-from 신경망_학습 import cross_entropy_error_batch
+from functions import cross_entropy_error_batch
 from 수치미분 import numerical_gradient
 
 class simpleNet:
