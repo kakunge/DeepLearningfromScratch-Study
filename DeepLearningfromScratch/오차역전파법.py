@@ -56,3 +56,19 @@ class ReLU:
 
         return dx
 
+#시그모이드 계층
+class Sigmoid:
+    def __init__(self):
+        delf.out = None
+
+    def forward(self, x):
+        out = 1 / (1 + np.exp(-x))
+        self.out = out
+        
+        return out
+    
+    def backward(self, dout):
+        dx = dout * (1.0 - self. out) * self.out
+        
+        return dx
+    
