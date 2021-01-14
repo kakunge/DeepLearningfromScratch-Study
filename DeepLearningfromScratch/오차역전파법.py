@@ -1,5 +1,5 @@
 import numpy as np
-from functions import cross_entropy_error, softmax
+from functions import cross_entropy_error_batch, softmax
 
 #계산 그래프 : 계산 과정을 그래프로 나타낸 것
 #순전파 : 계산 그래프의 출발점부터 종착점으로의 전파
@@ -107,7 +107,7 @@ class softmaxWithLoss:
     def forward(self, x, t):
         self.t = t
         self.y = softmax(x)
-        self.loss = cross_entropy_error(self.y, self.t)
+        self.loss = cross_entropy_error_batch(self.y, self.t)
 
         return self.loss
 
