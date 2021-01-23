@@ -16,4 +16,4 @@ while i:
 print(hex(sum))
 
 
-#f.close()
+f.close()
