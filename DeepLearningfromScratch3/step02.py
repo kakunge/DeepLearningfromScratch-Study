@@ -1,5 +1,5 @@
-from step01 import Variable
 import numpy as np
+from step01 import Variable
 
 '''
 class Function:
