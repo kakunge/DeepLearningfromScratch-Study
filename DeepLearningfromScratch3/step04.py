@@ -20,7 +20,7 @@ print(dy)#4.000000000004
 
 from step03 import Exp
 
-def f(x):
+def f2(x):
     A = Square()
     B = Exp()
     C = Square()
@@ -28,6 +28,6 @@ def f(x):
     return C(B(A(x)))
 
 x = Variable(np.array(0.5))
-dy = numerical_diff(f, x)
+dy = numerical_diff(f2, x)
 
 print(dy)#3.2974426293330694
