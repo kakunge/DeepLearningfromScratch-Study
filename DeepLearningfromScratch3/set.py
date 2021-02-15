@@ -43,7 +43,9 @@ class Exp(Function):
         gx = np.exp(x) * gy
 
         return gx
-        
+
+
+#수치미분
 def numerical_diff(f, x, eps=1e-4):
     x0 = Variable(x.data - eps)
     x1 = Variable(x.data + eps)
