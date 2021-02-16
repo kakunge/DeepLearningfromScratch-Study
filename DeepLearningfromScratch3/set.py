@@ -2,6 +2,10 @@ import numpy as np
 
 class Variable:
     def __init__(self, data):
+        if data is not None:
+            if not isinstance(data, np.ndarray):
+                raise TypeError('{}은(는) 지원하지 않습니다.'.format(type(data)))
+
         self.data = data
         self.grad = None#역전파에 대응하기 위한 미분값 저장
         self.creator = None
@@ -32,11 +36,16 @@ class Variable:
             if x.creator is not None:
                 funcs.append(x.creator)
 
+def as_array(x):
+    if np.isscalar(x):
+        return np.array(x)
+    return x
+
 class Function:
     def __call__(self, input):
         x = input.data
         y = self.forward(x)
-        output = Variable(y)
+        output = Variable(as_array(y))
         output.set_creator(self)#출력 변수에 창조자 설정
         self.input = input#입력 변수를 기억
         self.output = output#출력 저장

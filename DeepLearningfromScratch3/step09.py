@@ -15,4 +15,15 @@ y = square(b)
 
 y.grad = np.array(1.0)
 y.backward()
+
 print(x.grad)#3.297442541400256
+
+#Variable 오류 출력
+p = Variable(np.array(1.0))
+q = Variable(None)
+r = Variable(1.0)#<class 'numpy.float64'>은(는) 지원하지 않습니다.
+
+def as_array(x):
+    if np.isscalar(x):
+        return np.array(x)
+    return x
