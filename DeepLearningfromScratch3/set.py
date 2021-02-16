@@ -10,12 +10,25 @@ class Variable:
         self.creator = func
 
     #역전파 자동화
+    '''
     def backward(self):
         f = self.creator#1. 함수를 가져온다
         if f is not None:
             x = f.input#2. 함수의 입력을 가져온다
             x.grad = f.backward(self.grad)#3. 함수의 backward 메서드를 호출한다
             x.backward()#하나 앞 변수의 backward 메서드를 호출한다
+    '''
+
+    #반복문을 이용한 구현
+    def backward(self):
+        funcs = [self.creator]
+        while funcs:
+            f = funcs.pop()
+            x, y = f.input, f.output
+            x.grad = f.backward(y.grad)
+
+            if x.creator is not None:
+                funcs.append(x.creator)
 
 class Function:
     def __call__(self, input):
