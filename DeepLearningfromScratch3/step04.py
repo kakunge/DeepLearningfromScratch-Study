@@ -2,6 +2,7 @@ import numpy as np
 from step01 import Variable
 from step02 import Function
 
+#수치미분
 def numerical_diff(f, x, eps=1e-4):
     x0 = Variable(x.data - eps)
     x1 = Variable(x.data + eps)
