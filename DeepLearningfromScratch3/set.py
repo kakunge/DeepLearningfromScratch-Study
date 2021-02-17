@@ -30,11 +30,14 @@ class Variable:
         funcs = [self.creator]
         while funcs:
             f = funcs.pop()
-            x, y = f.input, f.output
-            x.grad = f.backward(y.grad)
-
-            if x.creator is not None:
-                funcs.append(x.creator)
+            gys = [output.grad for output in f.outputs]
+            gxs = f.backward(*gys)
+            if not isinstance(gxs, tuple):
+                gxs = (gxs,)
+            for x, gx in zip(f.inputs, gxs):
+                x.grad = gx
+                if x.creator is not None:
+                    funcs.append(x.creator)
 
 def as_array(x):
     if np.isscalar(x):
@@ -81,7 +84,7 @@ class Square(Function):
         return y
 
     def backward(self, gy):
-        x = self.input.data
+        x = self.inputs[0].data
         gx = 2 * x * gy
 
         return gx
@@ -93,7 +96,7 @@ class Exp(Function):
         return y
     
     def backward(self, gy):
-        x = self.input.data
+        x = self.inputs[0].data
         gx = np.exp(x) * gy
 
         return gx
@@ -103,6 +106,9 @@ class Add(Function):
         y = x0 + x1
 
         return (y,)
+    
+    def backward(self, gy):
+        return gy, gy
 
 
 
