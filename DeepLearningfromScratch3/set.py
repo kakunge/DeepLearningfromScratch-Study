@@ -35,9 +35,17 @@ class Variable:
             if not isinstance(gxs, tuple):
                 gxs = (gxs,)
             for x, gx in zip(f.inputs, gxs):
-                x.grad = gx
+                #같은 변수 중복 사용
+                if x.grad is None:
+                    x.grad = gx
+                else:
+                    x.grad = x.grad + gx
+
                 if x.creator is not None:
                     funcs.append(x.creator)
+
+    def cleargrad(self):
+        self.grad = None
 
 def as_array(x):
     if np.isscalar(x):
