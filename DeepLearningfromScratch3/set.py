@@ -9,9 +9,11 @@ class Variable:
         self.data = data
         self.grad = None#역전파에 대응하기 위한 미분값 저장
         self.creator = None
+        self.generation = 0
 
     def set_creator(self, func):
         self.creator = func
+        self.generation = func.generation + 1
 
     #역전파 자동화
     '''
