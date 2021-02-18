@@ -54,7 +54,7 @@ def as_array(x):
         return np.array(x)
     return x
 
-class Function:
+class Function(object):
     '''
     def __call__(self, input):
         x = input.data
@@ -74,6 +74,7 @@ class Function:
         if not isinstance(ys, tuple):
             ys = (ys,)
         outputs = [Variable(as_array(y)) for y in ys]
+        self.generation = max([x.generation for x in inputs])
         for output in outputs:
             output.set_creator(self)
         self.inputs = inputs
