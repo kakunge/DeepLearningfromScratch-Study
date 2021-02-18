@@ -1,4 +1,5 @@
 import numpy as np
+import weakref
 
 class Variable:
     def __init__(self, data):
@@ -39,10 +40,10 @@ class Variable:
                 seen_set.add(f)
                 funcs.sort(key=lambda x: x.generation)
         add_func(self.creator)
-        
+
         while funcs:
             f = funcs.pop()
-            gys = [output.grad for output in f.outputs]
+            gys = [output().grad for output in f.outputs]
             gxs = f.backward(*gys)
             if not isinstance(gxs, tuple):
                 gxs = (gxs,)
@@ -54,7 +55,7 @@ class Variable:
                     x.grad = x.grad + gx
 
                 if x.creator is not None:
-                    funcs.append(x.creator)
+                    add_func(x.creator)
 
     def cleargrad(self):
         self.grad = None
@@ -88,7 +89,7 @@ class Function(object):
         for output in outputs:
             output.set_creator(self)
         self.inputs = inputs
-        self.outputs = outputs
+        self.outputs = [weakref.ref(output) for output in outputs]
 
         return outputs if len(outputs) > 1 else outputs[0]
 
