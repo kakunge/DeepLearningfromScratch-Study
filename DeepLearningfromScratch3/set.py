@@ -1,5 +1,15 @@
 import numpy as np
 import weakref
+import contextlib
+
+@contextlib.contextmanager
+def using_config(name, value):
+    old_value = getattr(Config, name)
+    setattr(Config, name, value)
+    try:
+        yield
+    finally:
+        setattr(Config, name, old_value)
 
 class Variable:
     def __init__(self, data):
@@ -27,7 +37,7 @@ class Variable:
     '''
 
     #반복문을 이용한 구현
-    def backward(self):
+    def backward(self, retain_grad=False):
         if self.grad is None:
             self.grad = np.ones_like(self.data)
         
@@ -56,6 +66,9 @@ class Variable:
 
                 if x.creator is not None:
                     add_func(x.creator)
+            if not retain_grad:
+                for y in f.outputs:
+                    y().grad = None
 
     def cleargrad(self):
         self.grad = None
@@ -85,11 +98,13 @@ class Function(object):
         if not isinstance(ys, tuple):
             ys = (ys,)
         outputs = [Variable(as_array(y)) for y in ys]
-        self.generation = max([x.generation for x in inputs])
-        for output in outputs:
-            output.set_creator(self)
-        self.inputs = inputs
-        self.outputs = [weakref.ref(output) for output in outputs]
+
+        if Config.enable_backprop:
+            self.generation = max([x.generation for x in inputs])
+            for output in outputs:
+                output.set_creator(self)
+            self.inputs = inputs
+            self.outputs = [weakref.ref(output) for output in outputs]
 
         return outputs if len(outputs) > 1 else outputs[0]
 
@@ -98,6 +113,9 @@ class Function(object):
 
     def backward(self, gy):
         raise NotImplementedError()
+
+class Config:
+    enable_backprop = True
 
 class Square(Function):
     def forward(self, x):
@@ -133,6 +151,9 @@ class Add(Function):
         return gy, gy
 
 
+
+def no_grad():
+    return using_config('enable_backprop', False)
 
 def square(x):
     return Square()(x)
