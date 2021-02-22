@@ -93,6 +93,12 @@ class Variable:
     def __len__(self):
         return len(self, data)
 
+    def __repr__(self):
+        if self.data is None:
+            return 'variable(None)'
+        p = str(self.data).replace('\n', '\n' + ' ' * 9)
+        return 'variable(' + p + ')'
+
 def as_array(x):
     if np.isscalar(x):
         return np.array(x)
