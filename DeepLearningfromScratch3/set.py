@@ -74,6 +74,9 @@ class Variable:
     def cleargrad(self):
         self.grad = None
 
+    def __mul__(self, other):
+        return mul(self, other)
+
     @property
     def shape(self):
         return self.data.shape
