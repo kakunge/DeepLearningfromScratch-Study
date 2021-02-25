@@ -206,3 +206,6 @@ def add(x0, x1):
 
 def mul(x0, x1):
     return Mul()(x0, x1)
+
+Variable.__mul__ = mul
+Variable.__add__ = add
