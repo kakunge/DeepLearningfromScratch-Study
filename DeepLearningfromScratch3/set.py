@@ -123,7 +123,7 @@ class Function(object):
     #__call__ 메서드의 인수와 반환값을 리스트로 변경
     def __call__(self, *inputs):
         inputs = [as_variable(x) for x in inputs]
-        
+
         xs = [x.data for x in inputs]
         ys = self.forward(*xs)
         if not isinstance(ys, tuple):
@@ -204,6 +204,7 @@ def exp(x):
     return Exp()(x)
 
 def add(x0, x1):
+    x1 = as_array(x1)
     return Add()(x0, x1)
 
 def mul(x0, x1):
