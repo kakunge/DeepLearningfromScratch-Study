@@ -12,6 +12,8 @@ def using_config(name, value):
         setattr(Config, name, old_value)
 
 class Variable:
+    __array_priority__ = 200
+    
     def __init__(self, data, name=None):
         if data is not None:
             if not isinstance(data, np.ndarray):
@@ -73,9 +75,6 @@ class Variable:
 
     def cleargrad(self):
         self.grad = None
-
-    def __mul__(self, other):
-        return mul(self, other)
 
     @property
     def shape(self):
@@ -208,6 +207,7 @@ def add(x0, x1):
     return Add()(x0, x1)
 
 def mul(x0, x1):
+    x1 = as_array(x1)
     return Mul()(x0, x1)
 
 def as_variable(obj):
@@ -216,5 +216,7 @@ def as_variable(obj):
     
     return Variable(obj)
 
-Variable.__mul__ = mul
 Variable.__add__ = add
+Variable.__radd__ = add
+Variable.__mul__ = mul
+Variable.__rmul__ = mul
