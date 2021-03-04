@@ -198,6 +198,15 @@ class Neg(Function):
     def backward(self, gy):
         return -gy
 
+class Sub(Function):
+    def forward(self, x0, x1):
+        y = x0 - x1
+
+        return y
+
+    def backward(self, gy):
+        return gy, -gy
+
 
 
 def no_grad():
@@ -220,6 +229,14 @@ def mul(x0, x1):
 def neg(x):
     return Neg()(x)
 
+def sub(x0, x1):
+    x1 = as_array(x1)
+    return Sub()(x0, x1)
+
+def rsub(x0, x1):
+    x1 = as_array(x1)
+    return Sub()(x1, x0)
+
 def as_variable(obj):
     if isinstance(obj, Variable):
         return obj
@@ -231,3 +248,5 @@ Variable.__radd__ = add
 Variable.__mul__ = mul
 Variable.__rmul__ = mul
 Variable.__neg__ = neg
+Variable.__sub__ = sub
+Variable.__rsub__ = rsub
