@@ -207,6 +207,35 @@ class Sub(Function):
     def backward(self, gy):
         return gy, -gy
 
+class Div(Function):
+    def forward(self, x0, x1):
+        y = x0 / x1
+
+        return y
+
+    def backward(self, gy):
+        x0, x1 = self.inputs[0].data, self.inputs[1].data
+        gx0 = gy / x1
+        gx1 = gy * (-x0 / x1 ** 2)
+
+        return gx0, gx1
+
+class Pow(Function):
+    def __init__(self, c):
+        self.c = c
+
+    def forward(self, x):
+        y  = x ** self.c
+        
+        return y
+
+    def backward(self, gy):
+        x = self.inputs[0].data
+        c = self.c
+        gx = c * x ** (c - 1) * gy
+
+        return gx
+
 
 
 def no_grad():
@@ -237,6 +266,17 @@ def rsub(x0, x1):
     x1 = as_array(x1)
     return Sub()(x1, x0)
 
+def div(x0, x1):
+    x1 = as_array(x1)
+    return Div()(x0, x1)
+
+def rdiv(x0, x1):
+    x1 = as_array(x1)
+    return Div()(x1, x0)
+
+def pow(x, c):
+    return Pow(c)(x)
+
 def as_variable(obj):
     if isinstance(obj, Variable):
         return obj
@@ -250,3 +290,6 @@ Variable.__rmul__ = mul
 Variable.__neg__ = neg
 Variable.__sub__ = sub
 Variable.__rsub__ = rsub
+Variable.__div__ = div
+Variable.__rdiv__ = rdiv
+Variable.__pow__ = pow
