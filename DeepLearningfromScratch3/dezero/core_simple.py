@@ -256,6 +256,11 @@ def rdiv(x0, x1):
 def pow(x, c):
     return Pow(c)(x)
 
+def sphere(x, y):
+    z = x ** 2 + y ** 2
+
+    return z
+
 def setup_variable():
     Variable.__add__ = add
     Variable.__radd__ = add
