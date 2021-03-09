@@ -24,7 +24,7 @@ print(txt)
 
 p = Variable(np.array(1.0))
 q = Variable(np.array(1.0))
-r = goldstein(x, y)
+r = goldstein(p, q)
 r.backward()
 
 p.name = 'p'
