@@ -5,7 +5,5 @@ from dezero.core_simple import no_grad
 from dezero.core_simple import as_array
 from dezero.core_simple import as_variable
 from dezero.core_simple import setup_variable
-from dezero.utills import _dot_var
-from dezero.utills import _dot_func
 
 setup_variable()

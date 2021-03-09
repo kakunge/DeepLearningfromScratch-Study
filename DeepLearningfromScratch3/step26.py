@@ -1,6 +1,9 @@
 import numpy as np
 from dezero import Variable
-from dezero import _dot_var, _dot_func
+from dezero.utills import _dot_var, _dot_func
+from dezero.utills import plot_dot_graph
+from dezero.functions import goldstein
+
 
 x = Variable(np.random.randn(2, 3))
 x.name = "x"
@@ -18,3 +21,13 @@ print(txt)
 #140646144455008 -> 140646185869808
 #140646185869760 -> 140646185869808
 #140646185869808 -> 140646185869664
+
+p = Variable(np.array(1.0))
+q = Variable(np.array(1.0))
+r = goldstein(x, y)
+r.backward()
+
+p.name = 'p'
+q.name = 'q'
+r.name = 'r'
+plot_dot_graph(r, verbose=False, to_file='graphviz/img/goldstein.png')
