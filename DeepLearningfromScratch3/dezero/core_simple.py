@@ -1,6 +1,7 @@
 import numpy as np
 import weakref
 import contextlib
+import math
 
 class Config:
     enable_backprop = True
@@ -203,6 +204,18 @@ class Pow(Function):
 
         return gx
 
+class Sin(Function):
+    def forward(self, x):
+        y = np.sin(x)
+
+        return y
+
+    def backward(self, gy):
+        x = self.inputs[0].data
+        gx = gy * np.cos(x)
+
+        return gx
+
 @contextlib.contextmanager
 def using_config(name, value):
     old_value = getattr(Config, name)
@@ -260,6 +273,20 @@ def sphere(x, y):
     z = x ** 2 + y ** 2
 
     return z
+
+def sin(x):
+    return Sin()(x)
+
+def my_sin(x, threshold=1e-150):
+    y = 0
+    for i in range(100000):
+        c = (-1) ** i / math.factorial(2 * i + 1)
+        t = c * x ** (2 * i + 1)
+        y = y + t
+        if abs(t.data) <  threshold:
+            break
+
+    return y
 
 def setup_variable():
     Variable.__add__ = add
