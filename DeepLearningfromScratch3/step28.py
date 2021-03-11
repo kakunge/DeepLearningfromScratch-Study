@@ -1,6 +1,6 @@
 import numpy as np
 from dezero import Variable
-from dezero.core_simple import rosenbrock
+from dezero.functions import rosenbrock
 
 x0 = Variable(np.array(0.0))
 x1 = Variable(np.array(2.0))
