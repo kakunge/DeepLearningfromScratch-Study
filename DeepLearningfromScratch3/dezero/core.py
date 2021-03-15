@@ -178,7 +178,7 @@ class Pow(Function):
         return y
 
     def backward(self, gy):
-        x = self.inputs
+        x, = self.inputs
         c = self.c
         gx = c * x ** (c - 1) * gy
 
@@ -191,7 +191,7 @@ class Sin(Function):
         return y
 
     def backward(self, gy):
-        x = self.inputs[0].data
+        x, = self.inputs
         gx = gy * np.cos(x)
 
         return gx
