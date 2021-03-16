@@ -184,17 +184,6 @@ class Pow(Function):
 
         return gx
 
-class Sin(Function):
-    def forward(self, x):
-        y = np.sin(x)
-
-        return y
-
-    def backward(self, gy):
-        x, = self.inputs
-        gx = gy * np.cos(x)
-
-        return gx
 
 @contextlib.contextmanager
 def using_config(name, value):
@@ -254,8 +243,6 @@ def sphere(x, y):
 
     return z
 
-def sin(x):
-    return Sin()(x)
 
 def my_sin(x, threshold=1e-150):
     y = 0

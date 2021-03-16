@@ -1,5 +1,30 @@
 import numpy as np
-from dezero import Variable
+from dezero import Variable, Function
+
+
+class Sin(Function):
+    def forward(self, x):
+        y = np.sin(x)
+
+        return y
+
+    def backward(self, gy):
+        x, = self.inputs
+        gx = gy * cos(x)
+
+        return gx
+
+class Cos(Function):
+    def forward(self, x):
+        y = np.cos(x)
+
+        return y
+
+    def backward(self, gy):
+        x, = self.inputs
+        gx = gy * -sin(x)
+
+        return gx
 
 def sphere(x, y):
     z = x ** 2 + y ** 2
@@ -20,3 +45,9 @@ def rosenbrock(x0, x1):
     y = 100 * (x1 - x0 ** 2) ** 2 + (1 - x0) ** 2
 
     return y
+
+def sin(x):
+    return Sin()(x)
+
+def cos(x):
+    return Cos()(x)
