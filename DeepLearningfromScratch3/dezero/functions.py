@@ -26,6 +26,20 @@ class Cos(Function):
 
         return gx
 
+class Tanh(Function):
+    def forward(self, x):
+        y = np.tanh(x)
+
+        return y
+
+    def backward(self, gy):
+        y = self.outputs[0]()
+        gx = gy * (1 - y * y)
+
+        return gx
+
+
+
 def sphere(x, y):
     z = x ** 2 + y ** 2
 
@@ -51,3 +65,6 @@ def sin(x):
 
 def cos(x):
     return Cos()(x)
+
+def tanh(x):
+    return Tanh()(X)
