@@ -67,4 +67,4 @@ def cos(x):
     return Cos()(x)
 
 def tanh(x):
-    return Tanh()(X)
+    return Tanh()(x)
