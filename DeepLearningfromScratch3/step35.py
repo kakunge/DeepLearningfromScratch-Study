@@ -15,7 +15,6 @@ for i in range(iters):
     x.cleargrad()
     gx.backward(create_graph=True)
 
-
 gx = x.grad
 gx.name = 'gx' + str(iters+1)
 plot_dot_graph(gx, verbose=False, to_file='graphviz/img/tanh08.png')
