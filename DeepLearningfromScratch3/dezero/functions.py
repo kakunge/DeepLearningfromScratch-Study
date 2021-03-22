@@ -15,6 +15,17 @@ class Reshape(Function):
 
     def backward(self, gy):
         return reshape(gy, self.x_shape)
+
+class Transpose(Function):
+    def forward(self, x):
+        y = np.transpose(x)
+
+        return y
+
+    def backward(self, gy):
+        gx = transpose(gy)
+
+        return gx
         
 class Sin(Function):
     def forward(self, x):
@@ -59,6 +70,9 @@ def reshape(x, shape):
         return as_variable(x)
         
     return Reshape(shape)(x)
+
+def transpose(x):
+    return Transpose()(x)
 
 def sphere(x, y):
     z = x ** 2 + y ** 2

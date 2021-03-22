@@ -69,6 +69,9 @@ class Variable:
 
         return dezero.functions.reshape(self, shape)
 
+    def transpose(self):
+        return dezero.functions.transpose(self)
+
     @property
     def shape(self):
         return self.data.shape
@@ -84,6 +87,10 @@ class Variable:
     @property
     def dtype(self):
         return self.data.dtype
+
+    @property
+    def T(self):
+        return dezero.functions.transpose(self)
 
     def __len__(self):
         return len(self, data)

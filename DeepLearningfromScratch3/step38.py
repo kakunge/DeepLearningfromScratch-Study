@@ -12,3 +12,12 @@ y.backward(retain_grad=True)
 print(x.grad)
 #variable([[1 1 1]
 #          [1 1 1]])
+
+x.cleargrad()
+
+y = F.transpose(x)
+y.backward()
+
+print(x.grad)
+#variable([[1 1 1]
+#          [1 1 1]])
