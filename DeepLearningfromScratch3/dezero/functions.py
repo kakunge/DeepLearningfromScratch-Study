@@ -63,6 +63,18 @@ class Tanh(Function):
 
         return gx
 
+class Sum(Function):
+    def forward(self, x):
+        self.x_shape = x.shape
+        y = x.sum()
+
+        return y
+
+    def backward(self, gy):
+        gx = broadcast_to(gy, self.x_shape)
+
+        return gx
+
 
 
 def reshape(x, shape):
@@ -102,3 +114,6 @@ def cos(x):
 
 def tanh(x):
     return Tanh()(x)
+
+def sum(x):
+    return Sum()(x)
