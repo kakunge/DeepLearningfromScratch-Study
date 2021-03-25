@@ -21,3 +21,4 @@ y.backward()
 print(x.grad)
 #variable([[1 1 1]
 #          [1 1 1]])
+

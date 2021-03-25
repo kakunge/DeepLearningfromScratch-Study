@@ -1,6 +1,6 @@
 import numpy as np
 from dezero import Variable
-from dezero.utills import plot_dot_graph
+from dezero.utils import plot_dot_graph
 import dezero.functions as F
 
 x = Variable(np.array(1.0))
