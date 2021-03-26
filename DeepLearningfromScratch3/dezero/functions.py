@@ -1,6 +1,7 @@
 import numpy as np
 from dezero import Variable, Function
 from dezero import as_variable
+from dezero import utils
 
 
 class Reshape(Function):
@@ -25,6 +26,20 @@ class Transpose(Function):
     def backward(self, gy):
         gx = transpose(gy)
 
+        return gx
+
+class BroadcastTo(Function):
+    def __init__(self, shape):
+        self.shape = shape
+
+    def forward(self, x):
+        self.x_shape = x.shape
+        xp = dezero.cuda.get_array_module(x)
+        y = xp.broadcast_to(x, self.shape)
+        return y
+
+    def backward(self, gy):
+        gx = sum_to(gy, self.x_shape)
         return gx
         
 class Sin(Function):
@@ -90,6 +105,12 @@ def reshape(x, shape):
 
 def transpose(x):
     return Transpose()(x)
+
+
+def broadcast_to(x, shape):
+    if x.shape == shape:
+        return as_variable(x)
+    return BroadcastTo(shape)(x)
 
 def sphere(x, y):
     z = x ** 2 + y ** 2
