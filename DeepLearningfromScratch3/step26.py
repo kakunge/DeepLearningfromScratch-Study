@@ -1,7 +1,7 @@
 import numpy as np
 from dezero import Variable
-from dezero.utills import _dot_var, _dot_func
-from dezero.utills import plot_dot_graph
+from dezero.utils import _dot_var, _dot_func
+from dezero.utils import plot_dot_graph
 from dezero.functions import goldstein
 
 

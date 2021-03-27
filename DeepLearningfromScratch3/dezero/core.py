@@ -2,6 +2,7 @@ import numpy as np
 import weakref
 import contextlib
 import math
+import dezero
 
 class Config:
     enable_backprop = True
@@ -63,7 +64,7 @@ class Variable:
     def cleargrad(self):
         self.grad = None
 
-    def rashape(self, *shape):
+    def reshape(self, *shape):
         if len(shape) == 1 and isinstance(shape[0], (tuple, list)):
             shape = shape[0]
 

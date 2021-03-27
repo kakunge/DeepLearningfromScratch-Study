@@ -1,7 +1,7 @@
 import numpy as np
 from dezero import Variable, Function
 from dezero import as_variable
-from dezero import utils
+from dezero import cuda, utils
 
 
 class Reshape(Function):
@@ -34,7 +34,7 @@ class BroadcastTo(Function):
 
     def forward(self, x):
         self.x_shape = x.shape
-        xp = dezero.cuda.get_array_module(x)
+        xp = cuda.get_array_module(x)
         y = xp.broadcast_to(x, self.shape)
         return y
 
