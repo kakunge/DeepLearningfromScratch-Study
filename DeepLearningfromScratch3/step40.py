@@ -6,3 +6,7 @@ x1 = Variable(np.array([10]))
 y = x1 + x0
 
 print(y)#variable([11 12 13])
+
+y.backward()
+
+print(x.grad)
