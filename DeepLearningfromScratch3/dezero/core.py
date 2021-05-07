@@ -94,7 +94,7 @@ class Variable:
         return dezero.functions.transpose(self)
 
     def __len__(self):
-        return len(self, data)
+        return len(self.data)
 
     def __repr__(self):
         if self.data is None:
@@ -301,6 +301,6 @@ def setup_variable():
     Variable.__neg__ = neg
     Variable.__sub__ = sub
     Variable.__rsub__ = rsub
-    Variable.__div__ = div
-    Variable.__rdiv__ = rdiv
+    Variable.__truediv__ = div
+    Variable.__rtruediv__ = rdiv
     Variable.__pow__ = pow
